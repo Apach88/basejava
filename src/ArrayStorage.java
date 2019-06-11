@@ -1,75 +1,58 @@
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int size = 0;
 
     void clear() {
-
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < getSize(); i++) {
             storage[i] = null;
         }
+        setSize(0);
     }
 
     void save(Resume r) {
-
-        storage[size()] = r;
+        int s = getSize();
+        storage[s] = r;
+        setSize(++s);
     }
 
     Resume get(String uuid) {
-
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < getSize(); i++) {
             if (storage[i].getUuid().equals(uuid))
                 return storage[i];
         }
-
         return null;
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < size(); i++) {
+        int s = getSize();
+        for (int i = 0; i < s; i++) {
             if (storage[i].getUuid().equals(uuid)) {
-                storage[i] = null;
+                if (i != s - 1) {
+                    storage[i] = storage[s - 1];
+                    storage[s - 1] = null;
+                } else storage[i] = null;
+                setSize(--s);
             }
         }
-        sort();
-    }
-
-    void sort() {
-        Arrays.sort(storage, new Comparator<Resume>() {
-            @Override
-            public int compare(Resume o1, Resume o2) {
-                if (o1 == null && o2 == null) {
-                    return 0;
-                }
-                if (o1 == null) {
-                    return 1;
-                }
-                if (o2 == null) {
-                    return -1;
-                }
-                return o1.compareTo(o2);
-            }
-        });
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-
-        return Arrays.copyOfRange(storage, 0, size());
+        return Arrays.copyOfRange(storage, 0, getSize());
     }
 
-    int size() {
-        int i;
-        for (i = 0; i < storage.length; i++) {
-            if (storage[i] == null)
-                break;
-        }
-        return i;
+    public int getSize() {
+        return this.size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }
