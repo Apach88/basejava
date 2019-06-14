@@ -1,3 +1,5 @@
+package com.urise.webapp.model;
+
 import java.util.Objects;
 
 /**
@@ -6,7 +8,7 @@ import java.util.Objects;
 public class Resume implements Comparable  {
 
     // Unique identifier
-    String uuid;
+    private String uuid;
 
     @Override
     public String toString() {
@@ -15,6 +17,10 @@ public class Resume implements Comparable  {
 
     public String getUuid() {
         return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @Override
