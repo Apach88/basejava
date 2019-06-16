@@ -17,8 +17,8 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (isPresent(r.getUuid())) {
-            System.out.println("ERROR: " + r.getUuid() + " is already exist");
+        if (getIndexIfPresent(r.getUuid()) >= 0) {
+            System.out.println("ERROR: " + r.getUuid() + " already exist");
         }
         else {
             if (size != storage.length) {
@@ -26,58 +26,56 @@ public class ArrayStorage {
                 size++;
             }
             else {
-                System.out.println("ERROR: no space in storage");
+                System.out.println("ERROR: no space in the storage");
             }
         }
     }
 
     public Resume get(String uuid) {
-        if (isPresent(uuid)){
-            for (Resume r : getAll()) {
-                if (r.getUuid().equals(uuid)) {
-                    return r;
-                }
-            }
+        int resumeIndex = getIndexIfPresent(uuid);
+        if (resumeIndex >= 0){
+            return storage[resumeIndex];
         } else {
-            System.out.println("ERROR: " + uuid + " is not present in storage");
+            System.out.println("ERROR: " + uuid + " does not exist in the storage");
         }
         return null;
     }
 
     public void delete(String uuid) {
-        if (isPresent(uuid)) {
-            for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid().equals(uuid)) {
-                    if (i != size - 1) {
-                        storage[i] = storage[size - 1];
-                        storage[size - 1] = null;
-                    } else storage[i] = null;
-                    size--;
-                }
+        int resumeIndex = getIndexIfPresent(uuid);
+        if (resumeIndex >= 0) {
+            if (resumeIndex != size -1) {
+                storage[resumeIndex] = storage[size - 1];
+                storage[size - 1] = null;
+            } else {
+                storage[resumeIndex] = null;
             }
+            size--;
         } else {
-            System.out.println("ERROR: " + uuid + " is not exist in storage");
+            System.out.println("ERROR: " + uuid + " does not exist in the storage");
         }
     }
 
     public void update (Resume r) {
-        if (isPresent(r.getUuid())) {
-            Resume resume = get(r.getUuid());
-            resume = r;
+        int resumeIndex = getIndexIfPresent(r.getUuid());
+        if (resumeIndex >= 0) {
+            storage[resumeIndex] = r;
         }
         else {
-            System.out.println("ERROR: " + r.getUuid() + " is not exist in storage");
+            System.out.println("ERROR: " + r.getUuid() + " does not exist in the storage");
         }
     }
 
-    public boolean isPresent (String id) {
-        for (Resume r : getAll()) {
-            if (r.getUuid().equals(id)){
-                return true;
+    public int getIndexIfPresent (String uuid) {
+        for (int i = 0; i < size; i++)
+        {
+            if (storage[i].getUuid().equals(uuid)){
+                return i;
             }
         }
-        return false;
+        return -1;
     }
+
     /**
      * @return array, contains only Resumes in storage (without null)
      */
