@@ -15,17 +15,20 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void insertValueToArray(int position, Resume resume) {
-        int index = position - 1;
-        if (storage[index] == null) {
+        int index = -position - 1;
+        if (index == size) {
             storage[index] = resume;
         } else {
-            System.arraycopy(storage, index, storage, position, size - index);
+            System.arraycopy(storage, index, storage, index + 1, size - index);
             storage[index] = resume;
         }
     }
 
     @Override
     protected void deleteValueFromArray(int position) {
-        System.arraycopy(storage, position + 1, storage, position, size - position);
+        int length = size - (position + 1);
+        int startIndex = position + 1;
+
+        System.arraycopy(getAll(), startIndex, storage, position, length);
     }
 }
