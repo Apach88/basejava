@@ -15,7 +15,6 @@ public class ArrayStorage extends AbstractArrayStorage {
     @Override
     protected void deleteValueFromArray(int position) {
         storage[position] = storage[size - 1];
-        storage[size - 1] = null;
     }
 
     @Override
