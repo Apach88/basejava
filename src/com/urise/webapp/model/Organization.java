@@ -1,5 +1,7 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,6 +13,7 @@ import java.util.Arrays;
 import static com.urise.webapp.util.DateUtil.NOW;
 import static com.urise.webapp.util.DateUtil.of;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -49,6 +52,7 @@ public class Organization implements Serializable {
      * gkislin
      * 28.07.2016
      */
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable{
         private final LocalDate startDate;
         private final LocalDate endDate;
